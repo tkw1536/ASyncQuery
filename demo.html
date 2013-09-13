@@ -1,0 +1,265 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>ASyncQuery.js - DEMO</title>
+		<!--
+		ASyncQuery.js DEMO /DOC File
+
+		(c) Tom Wiesing <tkw01536@googlemail.com> 2011
+
+		ASyncQuery.js is free software.
+		It comes without any warranty, to the extent permitted by applicable law.
+		You may redistribute and/or modify it, provided you comply to the following conditions:
+		(0) Any changes made to this file and/or its dependencies must be marked in such a way
+		that it is obvious that they are not by the original author.
+		(1) The original author of the original file must be named.
+		(2) Any redistribution and/or modification may not be commercial, meaning no
+		product using this file and/or its references may be included in a commercial
+		product or project.
+
+		(c) Tom Wiesing <tkw01536@googlemail.com> 2011
+		Last changes: 03rd December 2011
+
+		-->
+		<script src="js/ASyncQuery.js" type="text/javascript" language="JavaScript"></script>
+		<script type="text/javascript" language="JavaScript">
+			//Priorities Demo
+			function Priorities_Demo() {
+				var an_Object = {
+					Value : 0,
+					AlertValue : function() {
+						alert("Value is now: " + this.Value.toString());
+					},
+					Increase : function(HowMuch) {
+						alert("Increasing Value By: " + HowMuch.toString());
+						this.Value += HowMuch;
+					},
+				};
+				ASyncQuery("Dependency Demo Query", false).option({
+					defaultScope : an_Object,
+					onIdle : function() {alert("Idle");
+					},
+				}).query(an_Object.Increase, 0, 1, [100]).query(an_Object.Increase, 0, 4, [400]).query(an_Object.Increase, 0, 5, [500]).query(an_Object.Increase, 0, 2, [200]).query(an_Object.Increase, 0, 3, [300]).query(an_Object.AlertValue).start();
+			}
+
+			//Dependency Demo
+			function Dependency_Demo() {
+				var window_alert = function(message) {
+					alert(message);
+				}
+				ASyncQuery("A Custom Name").reset()
+				.query("D", window_alert, ["D: I need A, B & C"], ["A", "B", "C"])
+				.query("B", window_alert, ["B: I need B1 & B2"], ["B1", "B2"])
+				.query("A", window_alert, ["A: I need C"], ["C"])
+				.query("C", window_alert, ["C: I need nothing at all. "])
+				.query("B1", window_alert, ["B1: I need A & C"], ["A", "C"])
+				.query("B2", window_alert, ["B2: I need B1"], ["B1"]);
+			}
+			
+			//Demo 4
+			var DemoQuery;
+			function EventsDemo_Init(){
+				DemoQuery = ASyncQuery("FireDemoQuery");
+				DemoQuery.clear()
+				.on("Fire", function(){alert("Fire!!!");})
+				.on("Fire.Burning", function(a){alert("Message from "+a.toString()+": \nIt's still burning. ");}, ["<Unknown Transmitter>"]);
+			}
+			function EventsDemo_Fire(){
+				DemoQuery.fire("Fire", false);
+			}
+			function EventsDemo_Fire_and_Burning(){
+				DemoQuery.fire("Fire", true);
+			}
+			function EventsDemo_SayMessage(){
+				DemoQuery.fire("Fire", true, [prompt("Who are you?")]);
+			}
+		</script>
+		<!-- Stylesheet for demo -->
+		<link rel="stylesheet" href="./style.css"> 
+	</head>
+	<body>
+		<h1>ASyncQuery.js</h1>
+		<div>
+			<table summary="Navigation" class="navtable">
+				<colgroup>
+					<col style="width: 2%; ">
+					<col style="width: 16%; ">
+					<col style="width: 16%; ">
+					<col style="width: 16%; ">
+					<col style="width: 16%; ">
+					<col style="width: 16%; ">
+					<col style="width: 16%; ">
+					<col style="width: 2%; ">
+				</colgroup>
+				<tr>
+					<td>&nbsp;</td>
+					<td><a href="./index.html">Home</a></td>
+					<td><a href="./concepts.html">Concepts</a></td>
+					<td><a href="./license.html">License</a></td>
+					<td><a href="./api.html">API</a></td>
+					<td><b>Demo</b></td>
+					<td><a href="./tests.html">Tests</a></td>
+					<td>&nbsp;</td>
+				</tr>
+			</table>
+		</div>
+		<h2>Demonstration</h2>
+		<div>
+			Click on the function calls to start them. (They become blue when you hover them with your mouse). 
+		</div>
+		<div>
+			<h3>Priorities</h3>
+			<pre>function Priorities_Demo(){
+	var an_Object = 
+	{
+		Value: 0,
+		AlertValue: function(){
+			alert("Value is now: "+this.Value.toString());
+		},
+		Increase: function(HowMuch){
+			alert("Increasing Value By: "+HowMuch.toString());
+			this.Value+=HowMuch;
+		},
+	};
+	ASyncQuery("Dependency Demo Query", false)
+	.option(
+		{
+			defaultScope: an_Object,
+			onIdle: function(){alert("Idle");},
+		}
+	)
+	.query(an_Object.Increase, 0, 1, [100])
+	.query(an_Object.Increase, 0, 4, [400])
+	.query(an_Object.Increase, 0, 5, [500])
+	.query(an_Object.Increase, 0, 2, [200])
+	.query(an_Object.Increase, 0, 3, [300])
+	.query(an_Object.AlertValue)
+	.start();
+}</pre>
+			<a href="javascript:Priorities_Demo();" class="pre_link"><span class="pre">Priorities_Demo();</span></a><br />
+			This demo works as following:
+			<br>
+			<ul>
+				<li>
+					An object called <span class="pre">an_Object</span> is created.
+					It has a property <span class="pre">Value</span> and two methods <span class="pre">AlertValue</span> and <span class="pre">Increase</span>. <span class="pre">AlertValue</span> alerts the user of the current value, whereas <span class="pre">Increase</span> increases the value by a given amount.
+				</li>
+				<li>
+					An ASyncQuery with the name &quot;<i>A Custom Name</i>&quot; is created and is
+					initialized with the option autoStart set to false.
+				</li>
+				<li>
+					Two options of the ASyncQuery are changed: <span class="pre">defaultScope</span>
+					is set to <span class="pre">an_Object</span> and <span class="pre">onIdle</span> is set to a function which alerts &quot;Idle&quot;
+				</li>
+				<li>
+					Several QueryItems are added to the query. The first five have different priorites (from 1 to 5) and
+					each execute the same function, <span class="pre">an_Object.Increase</span>. They give it different
+					parameters, from 500 to 100 (100 x the priority).
+				</li>
+				<li>
+					A final QueryItem is added to the Query. It calls <span class="pre">an_Object.AlertValue</span>.
+					It will alert the user of the Value of <span class="pre">an_Object</span>. Note that the Scope
+					of all added Queries is <span class="pre">an_Object</span> because of the defaultScope parameter.
+				</li>
+				<li>
+					The Query is started.
+				</li>
+				<li>
+					The result should be several alert messages. First, the value should be
+					increased by 500, then 400 and so on. Then a dialog should pop up and say:
+					&quot;<i>Value is now: 1500</i>&quot;. Finally the <span class="pre">onIdle</span>
+					function should be called. It alerts <i>&quot;Idle&quot;</i>.
+				</li>
+			</ul>
+			<h3>Dependencies</h3>
+<pre>function Dependency_Demo(){
+	var window_alert = function(message){
+		alert(message);
+	}
+	ASyncQuery("Dependency Demo Query").reset()
+	.query("D", window_alert, ["D: I need A, B &amp; C"], ["A", "B", "C"])
+	.query("B", window_alert, ["B: I need B1 &amp; B2"], ["B1", "B2"])
+	.query("A", window_alert, ["A: I need C"], ["C"])
+	.query("C", window_alert, ["C: I need nothing at all. "])
+	.query("B1", window_alert, ["B1: I need A &amp; C"], ["A", "C"])
+	.query("B2", window_alert, ["B2: I need B1"], ["B1"]);
+}</pre>
+			<a href="javascript:Dependency_Demo();" class="pre_link">Dependency_Demo();</a><br />
+			This demo works as following:
+			<br>
+			<ul>
+				<li>
+					A function <span class="pre">window_alert</span> is created. It gives alerts a message. 
+				</li>
+				<li>
+					An ASyncQuery with the name &quot;<i>Dependency Demo Query</i>&quot; is created and 
+					reset (in case you run the Demo several Times, we don't want it to malfunction).
+				</li>
+				<li>
+					Several QueryItems are added to the query, depending on each other. Each alert of the what they depend on. They are added in random order. 
+				</li>
+				<li>
+					Because each item needs specefic other items. They will always run in a specific order:
+					<ul>
+						<li>C</li>
+						<li>A</li>
+						<li>B1 or B2</li>
+						<li>B1 or B2, the one which has not yet ran</li>
+						<li>B</li>
+						<li>D</li>
+					</ul>
+				</li>
+			</ul>
+		<h3>Events</h3>
+			<pre>var DemoQuery;
+function EventsDemo_Init(){
+	DemoQuery = ASyncQuery("FireDemoQuery");
+	DemoQuery.clear()
+	.on("Fire", function(){alert("Fire!!!");}) 
+	.on("Fire.Burning", function(a){alert("Message from "+a.toString()+": \nIt's still burning. ");}, ["&lt;Unknown Transmitter&gt;"]);
+}
+function EventsDemo_Fire(){
+	DemoQuery.fire("Fire", false); // Don't fire SubEvents
+}
+function EventsDemo_Fire_and_Burning(){
+	DemoQuery.fire("Fire", true); // Fire Sub Evens
+}
+function EventsDemo_SayMessage(){
+	DemoQuery.fire("Fire", true, [prompt("Who are you?")]); //Fire Sub Events and give custom parameters
+}</pre>
+			<a href="javascript:EventsDemo_Init();" class="pre_link">EventsDemo_Init();</a><span class="pre">//First start this</span><br />
+			<a href="javascript:EventsDemo_Fire();" class="pre_link">EventsDemo_Fire();</a><span class="pre">//Then me and the others are available</span><br />
+			<a href="javascript:EventsDemo_Fire_and_Burning();" class="pre_link">EventsDemo_Fire_and_Burning();</a><br />
+			<a href="javascript:EventsDemo_SayMessage();" class="pre_link">EventsDemo_SayMessage();</a><br />
+			This demo works as following:
+			<ul>
+				<li>
+					A variable <span class="pre">DemoQuery</span> is created. It will later hold an ASyncQuery object. 
+				</li>
+				<li>
+					In the function <i>EventsDemo_Init()</i>an ASyncQuery with the name &quot;<i>Fire</i>&quot; 
+					is created and stored in <span class="pre">DemoQuery</span>. Then several Event listeners are added. 
+					One listening to the Event <i>Fire</i> , which simply alerts &quot;Fire&quot;. Also a listener to the child event 
+					&quot;Fire.Burning&quot; is appended to the query. It gives out a
+					 message from a sender (default: &quot;&lt;Unknown transimtter. &gt;&quot;) that the fire is still burning. 
+					This function must be run before the others. 
+				</li>
+				<li>
+					<i>EventsDemo_Fire()</i> fires the &quot;Fire&quot; Event without the child event. 
+					It results in alerting the fire. 
+				</li>
+				<li>
+					<i>EventsDemo_Fire_and_Burning()</i> fires the &quot;Fire&quot; Event with the child event. 
+					It results in alerting the fire and the message that it is still burning from the unknown transmitter. 
+				</li>
+				<li>
+					<i>EventsDemo_SayMessage()</i> fires the &quot;Fire&quot; Event with the child event, passing your name to it (which you enter in a prmopt box). 
+					It results in alerting the fire and the message that it is still burning from whatever-you-entered-in-the-prmopt-box. 
+				</li>
+			</ul>
+		</div>
+	</body>
+</html>

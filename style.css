@@ -1,0 +1,205 @@
+.boolean
+{
+	color:#0ff;
+}
+
+.function
+{
+	color:#7f7f7f;
+}
+
+.number
+{
+	color:green;
+}
+
+.object
+{
+	color:blue;
+}
+
+pre,.pre,.pre_link
+{
+	font-family:monospace;
+	font-size:1em;
+	line-height:1;
+	white-space:pre;
+}
+
+.pre_link{
+	text-decoration:none;
+	color:black;
+}
+
+.pre_link:hover{
+	text-decoration:none;
+	color:blue;
+}
+
+.string
+{
+	color:red;
+}
+
+a,a:visited
+{
+	color:#00f;
+	text-decoration:underline;
+}
+
+a.ref
+{
+	color:#000;
+	text-decoration:none;
+}
+
+b
+{
+	font-weight:bolder;
+}
+
+body
+{
+	line-height:1.2;
+	margin:8px;
+	max-width:95%;
+	width:95%;
+}
+
+h1
+{
+	font-size:2em;
+}
+
+h1,h2,h3,h4,h5,h6
+{
+	font-weight:700;
+}
+
+h1,h2,h3,h4,h5,h6,body,pre,ol,div,hr
+{
+	display:block;
+}
+
+h2
+{
+	font-size:1.5em;
+}
+
+h3,h4
+{
+	font-size:1.17em;
+}
+
+h5
+{
+	font-size:0.83em;
+}
+
+h6
+{
+	font-size:0.67em;
+}
+
+hr
+{
+	border-style:inset;
+	border-width:1px;
+}
+
+i
+{
+	font-style:italic;
+}
+
+ul, ol{
+	counter-reset: c 0;
+}
+
+li.discarded
+{
+	text-decoration:line-through;
+	color:red;
+}
+
+li.discarded:after
+{
+	content:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAABp0RVh0U29mdHdhcmUAUGFpbnQuTkVUIHYzLjUuMTAw9HKhAAAARklEQVQoU2NgoDb4z8AARDgASBJZATofRdt/oFIwRtKE03S4YjRN+J0DVQyyFmYLXg3I7qNIA1G2EB1SMPeTFJdEOYEUEwEHqEu15MoMIQAAAABJRU5ErkJggg==");
+}
+
+li.done{
+	text-decoration:line-through;
+}
+
+li.done:after
+{
+	content:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAABp0RVh0U29mdHdhcmUAUGFpbnQuTkVUIHYzLjUuMTAw9HKhAAAAU0lEQVQoU5WRWxIAEAhFsxT7X2SKyYRezPRjzrlFDRHh67BQKcBOGIVnMIMCp8INh4IFu4IHb+Gdcz3QqnmphSj9GElA/SNuB92lLIiU76W4aQkaJux5kI82j3EAAAAASUVORK5CYII=");
+}
+
+li.todo:before{
+	color: black;
+	counter-increment: c;
+	content: "#I" counter(c, decimal-leading-zero) ": ";
+}
+
+li.tofix:before{
+	color: black;
+	counter-increment: c;
+	content: "#B" counter(c, decimal-leading-zero) ": ";
+}
+
+li.permanent:after{
+	color: green;
+	content: "[Permanent]";
+}
+
+li.wip:after
+{
+	content:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAABp0RVh0U29mdHdhcmUAUGFpbnQuTkVUIHYzLjUuMTAw9HKhAAAAX0lEQVQoU62RiQkAIAwDdf8F3SZaH0xrEASFIGKvT5oBpKdjgFNJlgFod1f4P4ItyAEB2sDKqACCBkDBsgK19w+wOVjLAFkhtsiOyaElMO2Vth4A7cIDwrH74uLWxbsCxhVviJKNQHEAAAAASUVORK5CYII=");
+}
+
+ol
+{
+	list-style-type:decimal;
+}
+
+pre
+{
+	font-family:monospace;
+	margin:0;
+	white-space:pre;
+}
+
+table
+{
+	border-collapse:separate;
+	border-spacing:2px;
+}
+
+table.NoBorder
+{
+	border:0;
+	width:100%;
+}
+
+table.navtable
+{
+	max-height:100%;
+	max-width:100%;
+	width:800px;
+}
+
+td
+{
+	vertical-align:top;
+}
+
+td.OverloadHeader
+{
+	background-color:#ff9;
+}
+
+ul
+{
+	list-style-type:square;
+}

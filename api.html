@@ -1,0 +1,1212 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>ASyncQuery.js - API</title>
+		<!--
+		ASyncQuery.js DEMO /DOC File
+
+		(c) Tom Wiesing <tkw01536@googlemail.com> 2011
+
+		ASyncQuery.js is free software.
+		It comes without any warranty, to the extent permitted by applicable law.
+		You may redistribute and/or modify it, provided you comply to the following conditions:
+		(0) Any changes made to this file and/or its dependencies must be marked in such a way
+		that it is obvious that they are not by the original author.
+		(1) The original author of the original file must be named.
+		(2) Any redistribution and/or modification may not be commercial, meaning no
+		product using this file and/or its references may be included in a commercial
+		product or project.
+
+		(c) Tom Wiesing <tkw01536@googlemail.com> 2011
+		Last changes: 24th December 2011
+
+		-->
+		<script src="js/ASyncQuery.js" type="text/javascript" language="JavaScript"></script>
+		<!-- Stylesheet for demo -->
+		<link rel="stylesheet" href="./style.css">
+		<script type="text/javascript" language="JavaScript">
+			function Example_Sequence() {
+				document.getElementById("Example_Seq").innerHTML = (function() {
+					var rmem = function(s) {
+						var e = Math.floor(Math.random() * s.length);
+						return s.substring(e, e + 1);
+					};
+					var lmem = function(l) {
+						var s = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghjklmnopqrstuvwxyz";
+						var r = "";
+						for(var i = 0; i < l; i++) {
+							r += rmem(s);
+						}
+						return r;
+					}
+					return lmem(10) + "-" + lmem(10) + "-" + lmem(10) + "-" + lmem(10) + "-" + lmem(10) + "-" + lmem(10) + "-" + lmem(10) + "-" + lmem(10);
+				})();
+			}
+		</script>
+	</head>
+	<body>
+		<h1>ASyncQuery.js</h1>
+		<div>
+			<table summary="Navigation" class="navtable">
+				<colgroup>
+					<col style="width: 2%; ">
+					<col style="width: 16%; ">
+					<col style="width: 16%; ">
+					<col style="width: 16%; ">
+					<col style="width: 16%; ">
+					<col style="width: 16%; ">
+					<col style="width: 16%; ">
+					<col style="width: 2%; ">
+				</colgroup>
+				<tr>
+					<td>&nbsp;</td>
+					<td><a href="./index.html">Home</a></td>
+					<td><a href="./concepts.html">Concepts</a></td>
+					<td><a href="./license.html">License</a></td>
+					<td><b>API</b></td>
+					<td><a href="./demo.html">Demo</a></td>
+					<td><a href="./tests.html">Tests</a></td>
+					<td>&nbsp;</td>
+				</tr>
+			</table>
+		</div>
+		<h2>API Documentation</h2>
+		<div>
+			<h3>General</h3>
+			<div>
+				This is a API reference for ASyncQuery.js. You will find all possible functions and settings here.
+				<br  >
+				Functions written <i>italic</i> refer to an instance of the specific type. <h4>Including the file</h4>
+				You may include the javascript library file like any other in your web page. Simply insert: 
+				<pre>&lt;script src=&quot;js/ASyncQuery.js&quot; type=&quot;text/javascript&quot; language=&quot;JavaScript&quot;&gt;&lt;/script&gt;</pre> inside 
+				the <span class="pre">&lt;head&gt;</span> or <span class="pre">&lt;body&gt;</span> tag of your website and put js/ASyncQuery.js in the appropriate folder. You can also rename the
+				file or put it in another folder, but remember, you will have to adapt the <span class="pre">&lt;script&gt;</span> tag in that case. 
+				<h4>Debug Mode</h4>
+				<div>
+					ASyncQuery.js has a debug mode. To enable it, 
+					put an html comment containg the following in the head of your html document <i>before</i>
+					the script tag including the library:<br />
+					<span class="pre">&lt;!-- ~ASyncQuery.js: Debug=True~ --&gt;</span><br />
+					The Debug Mode allows you to use the (undocumented) ASyncQuery.Debug() function. 
+				</div>
+				<h4>API Options </h4>
+				You might find something like:
+				<br >
+				&lt;<span class="object">object</span>&gt; setting1, ..., &lt;<span class="object">object</span>&gt; options
+				<br >
+				in the API documentation. This references to settings.
+				This means that you have to look at the end of the section for different options which are possible. In the table at the end of the
+				section all settings are listed, ranked by importance and types. When calling the function, <i>setting1</i> will refer to the first option
+				listed in the table with the it's type. <i>setting2</i> will refer to the second one of that type unless it is of another type. The options
+				variable has to be a hash containing the settings by Name. The hash overrides the settings before.
+			</div>
+			<h3>Data Types</h3>
+			<div>
+				There are 2 new DataTypes introduced in <i>ASyncQuery.js</i>:
+				<ul>
+					<li>
+						<b><a href="#API_ASyncQueryObject_Func" class="ref"><span class="object"><b>ASyncQuery</b></span></a>:</b>&nbsp;A type containing a query (list) of different ASyncQueryItems
+						which are all worked on one after another. <span class="pre">obj instanceof ASyncQuery.Type.ASyncQuery</span>
+						should return true for all objects of this type.
+					</li>
+					<li>
+						<b><a href="#API_ASyncQueryItem_Func" class="ref"><span class="object">ASyncQuery.QueryItem</span></a>:</b>&nbsp;A type containing a function and all it's parameters. <span class="pre">obj instanceof ASyncQuery.Type.ASyncQueryItem</span>
+						should return true for all objects of this type.
+					</li>
+				</ul>
+			</div>
+			<h3>ASyncQuery Object functions</h3>
+			<a name="API_ASyncQueryObject_Func"></a>
+			<div>
+				<b>ASyncQuery</b>()
+				is the main ASyncQuery.js function. In the index you will find
+				it's functions sorted alphabetically. The long API documentation is sorted by context.
+			</div>
+			<ul>
+				<li>
+					<a href="#ASyncQuery_Overload1" class="ref"> ASyncQuery(Func, [Timeout = 0], [setting2, ...], [ASyncQueryItemOptions]) </a>
+				</li>
+				<li>
+					<a href="#ASyncQuery_Overload2" class="ref"> ASyncQuery(QueryName) </a>
+				</li>
+				<li>
+					<a href="#ASyncQuery_Overload3" class="ref"> ASyncQuery(setting1, ..., ASyncQueryOptions) </a>
+				</li>
+				<li>
+					<a href="#ASyncQuery_add_1" class="ref"> <i>ASyncQuery</i>.add(ASyncQueryItem) </a>
+				</li>
+				<li>
+					<a href="#ASyncQuery_add" class="ref"> <i>ASyncQuery</i>.add(setting1, ..., ASyncQueryItemOptions) </a>
+				</li>
+				<li>
+					<a href="#ASyncQuery_chain" class="ref"> <i>ASyncQuery</i>.chain(Func1, [...]) </a>
+				</li>
+				<li>
+					<a href="#ASyncQuery_clear" class="ref"> <i>ASyncQuery</i>.clear() </a>
+				</li>
+				<li>
+					<a href="#ASyncQuery_clearItems" class="ref"> <i>ASyncQuery</i>.clearItems() </a>
+				</li>
+				<li>
+					<a href="#ASyncQuery_clearEventHandlers" class="ref"> <i>ASyncQuery</i>.clearEventHandlers() </a>
+				</li>
+				<li>
+					<a href="#ASyncQuery_clearEventHandlersFor" class="ref"> <i>ASyncQuery</i>.clearEventHandlersFor(EventName) </a>
+				</li>
+				<li>
+					<a href="#ASyncQuery_data" class="ref"> <i>ASyncQuery</i>.data(Name, [Value]) </a>
+				</li>
+				<li>
+					<a href="#ASyncQuery_data_1" class="ref"> <i>ASyncQuery</i>.data(DataMap) </a>
+				</li>
+				<li>
+					<a href="#ASyncQuery_dataApply" class="ref"> <i>ASyncQuery</i>.dataApply(Name, [Value]) </a>
+				</li>
+				<li>
+					<a href="#ASyncQuery_dataApply_1" class="ref"> <i>ASyncQuery</i>.dataApply(DataMap) </a>
+				</li>
+				<li>
+					<a href="#ASyncQuery_findEventHandlerWithName" class="ref"> <i>ASyncQuery</i>.findEventHandlerWithName(Name) </a>
+				</li>
+				<li>
+					<a href="#ASyncQuery_findItemWithName" class="ref"> <i>ASyncQuery</i>.findItemWithName(Name) </a>
+				</li>
+				<li>
+					<a href="#ASyncQuery_fire" class="ref"><i>ASyncQuery</i>.fire(EvName, [childEvents = True], [EventArguments = []]) </a>
+				</li>
+				<li>
+					<a href="#ASyncQuery_iterate" class="ref"> <i>ASyncQuery</i>.iterate() </a>
+				</li>
+				<li>
+					<a href="#ASyncQuery_nextIteration" class="ref"> <i>ASyncQuery</i>.nextIteration() </a>
+				</li>
+				<li>
+					<a href="ASyncQuery_off" class="ref"><i>ASyncQuery</i>.off(EvName, [HandlerName])</a>
+				</li>
+				<li>
+					<a href="#ASyncQuery_on" class="ref"><i>ASyncQuery</i>.on(EvName, ASyncQueryItem_Query_Paramter1, ..., ASyncQueryItem_Query_ParamterN)</a>
+				</li>
+				<li>
+					<a href="#ASyncQuery_option" class="ref"> <i>ASyncQuery</i>.option(Name, [Value]) </a>
+				</li>
+				<li>
+					<a href="#ASyncQuery_option_1" class="ref"> <i>ASyncQuery</i>.option(OptionMap) </a>
+				</li>
+				<li>
+					<a href="#ASyncQuery_pause" class="ref"> <i>ASyncQuery</i>.pause(length) </a>
+				</li>
+				<li>
+					<a href="#ASyncQuery_query_1" class="ref"> <i>ASyncQuery</i>.query(ASyncQueryItem) </a>
+				</li>
+				<li>
+					<a href="#ASyncQuery_query" class="ref"> <i>ASyncQuery</i>.query(setting1, ..., ASyncQueryItemOptions) </a>
+				</li>
+				<li>
+					<a href="#ASyncQuery_raise" class="ref"><i>ASyncQuery</i>.raise(EvName, [childEvents = True], [EventArguments = []]) </a>
+				</li>
+				<li>
+					<a href="#ASyncQuery_reset" class="ref"><i>ASyncQuery</i>.reset() </a>
+				</li>
+				<li>
+					<a href="#ASyncQuery_start" class="ref"> <i>ASyncQuery</i>.start([permanent]) </a>
+				</li>
+				<li>
+					<a href="#ASyncQuery_stop" class="ref"> <i>ASyncQuery</i>.stop([permanent]) </a>
+				</li>
+			</ul>
+			<table summary="ASyncQuery()" class="NoBorder">
+				<colgroup>
+					<col style="width: 50%; ">
+					<col style="width: 50%; ">
+				</colgroup>
+				<!-- Overload ASync.now()-->
+				<tbody>
+					<tr>
+						<td colspan="2" class="OverloadHeader"><a name="ASyncQuery_Overload1"></a><b>ASyncQuery</b>(&lt;<span class="function">function</span>&gt; Func,
+						[&lt;<span class="number">number</span>&gt; Timeout = 0],
+						[&lt;<span class="object">object</span>&gt; setting2, ...], [&lt;<span class="object">object</span>&gt; ASyncQueryItemOptions]) </td>
+					</tr>
+					<tr>
+						<td colspan="2">Asynchronously starts a function. Similar to <i>window.setTimeout()</i>, but with more advanced functions. </td>
+					</tr>
+					<tr>
+						<td colspan="2">Returns <a href="#API_ASyncQueryItem_Func" class="ref"><span class="object">ASyncQuery.QueryItem</span></a>. </td>
+					</tr>
+					<tr>
+						<td>&lt;<span class="function">function</span>&gt; Func</td>
+						<td>Function to call. Required.</td>
+					</tr>
+					<tr>
+						<td>&lt;<span class="number">number</span>&gt; Timeout</td>
+						<td>Optional variable containing a number of milliseconds to wait before starting the function. Default is <span class="number">0</span>. </td>
+					</tr>
+					<tr>
+						<td colspan = "2"><i>(further parameters see <a href="#API_ASyncQueryItem_Opt" class="ref"><span class="object">ASyncQuery.QueryItem</span></a>)</i></td>
+					</tr>
+					<tr>
+						<td>&lt;<span class="object">object</span>&gt; QueryItemOptions</td>
+						<td>Optional map containing different QueryItemOptions. </td>
+					</tr>
+				</tbody>
+				<!-- Overload Match -->
+				<tbody>
+					<tr>
+						<td colspan="2" class="OverloadHeader"><a name="ASyncQuery_Overload2"></a><b>ASyncQuery</b>(&lt;<span class="string">string</span>&gt; QueryName) </td>
+					</tr>
+					<tr>
+						<td colspan="2">Returns the <span class="object">ASyncQuery</span> with the specefied name, otherwise creates a new one with default options and this name. </td>
+					</tr>
+					<tr>
+						<td colspan="2">Returns <span class="object">ASyncQuery</span>. </td>
+					</tr>
+					<tr>
+						<td>&lt;<span class="string">string</span>&gt; QueryName</td>
+						<td>Name of ASyncQuery to return or to create. </td>
+					</tr>
+				</tbody>
+				<!-- Overload Make new -->
+				<tbody>
+					<tr>
+						<td colspan="2" class="OverloadHeader"><a name="ASyncQuery_Overload3"></a><b>ASyncQuery</b>(&lt;<span class="object">object</span>&gt; setting1, ..., &lt;<span class="object">object</span>&gt; ASyncQueryOptions) </td>
+					</tr>
+					<tr>
+						<td colspan="2">Creates a new <span class="object">ASyncQuery</span> object with the specefied options. </td>
+					</tr>
+					<tr>
+						<td colspan="2">Returns <span class="object">ASyncQuery</span>. </td>
+					</tr>
+					<tr>
+						<td>&lt;<span class="object">object</span>&gt; setting1, ..., settingN</td>
+						<td>Settings values of new object to create</td>
+					</tr>
+					<tr>
+						<td>&lt;<span class="object">object</span>&gt; ASyncQueryOptions</td>
+						<td>A map containing different ASyncQueryOptions. </td>
+					</tr>
+				</tbody>
+				<!-- data -->
+				<tbody>
+					<tr>
+						<td colspan="2" class="OverloadHeader"><a name="ASyncQuery_data"></a><i>ASyncQuery</i>.data(&lt;<span class="string">string</span>&gt; Name, [&lt;<span class="object">object</span>&gt; Value]) </td>
+					</tr>
+					<tr>
+						<td colspan="2">Gets or sets an internal data variable of the <span class="object">ASyncQuery</span>. </td>
+					</tr>
+					<tr>
+						<td colspan="2">Returns the value of the data if it is not set by the function, otherwise <span class="object">ASyncQuery</span>. </td>
+					</tr>
+					<tr>
+						<td>&lt;<span class="string">string</span>&gt; Name</td>
+						<td>Name of the data to get or set. </td>
+					</tr>
+					<tr>
+						<td>&lt;<span class="object">object</span>&gt; Value</td>
+						<td>Optional. If specefied, the data will be set to this Value. </td>
+					</tr>
+				</tbody>
+				<!-- data #2 -->
+				<tbody>
+					<tr>
+						<td colspan="2" class="OverloadHeader"><a name="ASyncQuery_data_1"></a><i>ASyncQuery</i>.data(&lt;<span class="object">object</span>&gt; DataMap) </td>
+					</tr>
+					<tr>
+						<td colspan="2">Sets several data values of the <span class="object">ASyncQuery</span>. </td>
+					</tr>
+					<tr>
+						<td colspan="2">Returns <span class="object">ASyncQuery</span>. </td>
+					</tr>
+					<tr>
+						<td>&lt;<span class="object">object</span>&gt; DataMap</td>
+						<td>Map of data values to set. </td>
+					</tr>
+				</tbody>
+				<!-- dataApply -->
+				<tbody>
+					<tr>
+						<td colspan="2" class="OverloadHeader"><a name="ASyncQuery_dataApply"></a><i>ASyncQuery</i>.dataApply(&lt;<span class="string">string</span>&gt; Name, [&lt;<span class="function">function</span>&gt; Value]) </td>
+					</tr>
+					<tr>
+						<td colspan="2">Gets or sets an internal data variable of the <span class="object">ASyncQuery</span>. </td>
+					</tr>
+					<tr>
+						<td colspan="2">Returns the value of the data if it is not set by the function, otherwise <span class="object">ASyncQuery</span>. </td>
+					</tr>
+					<tr>
+						<td>&lt;<span class="string">string</span>&gt; Name</td>
+						<td>Name of the data to get or set. </td>
+					</tr>
+					<tr>
+						<td>&lt;<span class="function">function</span>&gt; Value</td>
+						<td>Optional. If specefied the data will be set to this evaluated function. The first
+						parameter to the function will be the data to set. <i>this</i> will reference to the current ASyncQuery object. </td>
+					</tr>
+				</tbody>
+				<!-- dataApply #2 -->
+				<tbody>
+					<tr>
+						<td colspan="2" class="OverloadHeader"><a name="ASyncQuery_dataApply_1"></a><i>ASyncQuery</i>.dataApply(&lt;<span class="object">object</span>&gt; DataMap) </td>
+					</tr>
+					<tr>
+						<td colspan="2">Sets several data values of the <span class="object">ASyncQuery</span>. </td>
+					</tr>
+					<tr>
+						<td colspan="2">Returns <span class="object">ASyncQuery</span>. </td>
+					</tr>
+					<tr>
+						<td>&lt;<span class="object">object</span>&gt; DataMap</td>
+						<td>Map of data values to set using the method described above. </td>
+					</tr>
+				</tbody>
+				<!-- option -->
+				<tbody>
+					<tr>
+						<td colspan="2" class="OverloadHeader"><a name="ASyncQuery_option"></a><b><i>ASyncQuery</i>.option</b>(&lt;<span class="string">string</span>&gt; Name, [&lt;<span class="object">object</span>&gt; Value]) </td>
+					</tr>
+					<tr>
+						<td colspan="2">Gets or sets an option of the <span class="object">ASyncQuery</span>. </td>
+					</tr>
+					<tr>
+						<td colspan="2">Returns the value of the option if it is not set by the function, otherwise <span class="object">ASyncQuery</span>. </td>
+					</tr>
+					<tr>
+						<td>&lt;<span class="string">string</span>&gt; Name</td>
+						<td>Name of the option to get or set. </td>
+					</tr>
+					<tr>
+						<td>&lt;<span class="object">object</span>&gt; Value</td>
+						<td>Optional. If specefied, the option will be set to this Value. </td>
+					</tr>
+				</tbody>
+				<!-- option #2 -->
+				<tbody>
+					<tr>
+						<td colspan="2" class="OverloadHeader"><a name="ASyncQuery_option_1"></a><b><i>ASyncQuery</i>.option</b>(&lt;<span class="object">object</span>&gt; OptionMap) </td>
+					</tr>
+					<tr>
+						<td colspan="2">Sets several options of the <span class="object">ASyncQuery</span>. </td>
+					</tr>
+					<tr>
+						<td colspan="2">Returns <span class="object">ASyncQuery</span>. </td>
+					</tr>
+					<tr>
+						<td>&lt;<span class="object">object</span>&gt; OptionMap</td>
+						<td>Map of options to set. </td>
+					</tr>
+				</tbody>
+				<!-- Start -->
+				<tbody>
+					<tr>
+						<td colspan="2" class="OverloadHeader"><a name="ASyncQuery_start"></a><b><i>ASyncQuery</i>.start</b>([&lt;<span class="boolean">boolean</span>&gt; permanent]) </td>
+					</tr>
+					<tr>
+						<td colspan="2">Starts executing the Query. </td>
+					</tr>
+					<tr>
+						<td colspan="2">Returns <i>ASyncQuery</i>. </td>
+					</tr>
+					<tr>
+						<td>&lt;<span class="boolean">boolean</span>&gt; permanent</td>
+						<td>Optional. If set to <i>true</i>, sets the <i>autoStart</i> option to <i>true</i></td>
+					</tr>
+				</tbody>
+				<!-- Pause -->
+				<tbody>
+					<tr>
+						<td colspan="2" class="OverloadHeader"><a name="ASyncQuery_pause"></a><b><i>ASyncQuery</i>.pause</b>(&lt;<span class="number">number</span>&gt; length) </td>
+					</tr>
+					<tr>
+						<td colspan="2">Enlengthens the pause after the current item in the <span class="object">ASyncQuery</span> for a given number of milliseconds. </td>
+					</tr>
+					<tr>
+						<td colspan="2">Returns <span class="object">ASyncQuery</span>. </td>
+					</tr>
+					<tr>
+						<td>&lt;<span class="number">number</span>&gt; length</td>
+						<td>Amount of milliseconds to add to the pause. </td>
+					</tr>
+				</tbody>
+				<!-- stop -->
+				<tbody>
+					<tr>
+						<td colspan="2" class="OverloadHeader"><a name="ASyncQuery_stop"></a><b><i>ASyncQuery</i>.stop</b>([&lt;<span class="boolean">boolean</span>&gt; permanent]) </td>
+					</tr>
+					<tr>
+						<td colspan="2">Stops executing the Query after the current item has been executed. </td>
+					</tr>
+					<tr>
+						<td colspan="2">Returns <span class="object">ASyncQuery</span>. </td>
+					</tr>
+					<tr>
+						<td>&lt;<span class="boolean">boolean</span>&gt; permanent</td>
+						<td>Optional. If set to <i>true</i>, sets the <i>autoStart</i> option to <i>false</i></td>
+					</tr>
+				</tbody>
+				<!-- add, query #0-->
+				<tbody>
+					<tr>
+						<td colspan="2" class="OverloadHeader"><a name="ASyncQuery_add"></a><b><i>ASyncQuery</i>.add</b>(&lt;<span class="object">object</span>&gt; setting1, ..., &lt;<span class="object">object</span>&gt; ASyncQueryItemOptions) </td>
+					</tr>
+					<tr>
+						<td colspan="2">or</td>
+					</tr>
+					<tr>
+						<td colspan="2" class="OverloadHeader"><a name="ASyncQuery_query"></a><b><i>ASyncQuery</i>.query</b>(&lt;<span class="object">object</span>&gt; setting1, ..., &lt;<span class="object">object</span>&gt; ASyncQueryItemOptions) </td>
+					</tr>
+					<tr>
+						<td colspan="2">Creates a new ASyncQuery.QueryItem and adds it to the Query. </td>
+					</tr>
+					<tr>
+						<td colspan="2">Returns <span class="object">ASyncQuery</span>. </td>
+					</tr>
+					<tr>
+						<td colspan="2"><i>(Parameters see ASyncQuery.QueryItem)</i></td>
+					</tr>
+				</tbody>
+				<!-- add, query #1-->
+				<tbody>
+					<tr>
+						<td colspan="2" class="OverloadHeader"><a name="ASyncQuery_add_1"></a><b><i>ASyncQuery</i>.add</b>(&lt;<span class="object">object</span>&gt; ASyncQueryItem) </td>
+					</tr>
+					<tr>
+						<td colspan="2">or</td>
+					</tr>
+					<tr>
+						<td colspan="2" class="OverloadHeader"><a name="ASyncQuery_query_1"></a><b><i>ASyncQuery</i>.query</b>(&lt;<span class="object">object</span>&gt; ASyncQueryItem) </td>
+					</tr>
+					<tr>
+						<td colspan="2">Adds an exsisting ASyncQuery.QueryItem to the Query. </td>
+					</tr>
+					<tr>
+						<td colspan="2">Returns <span class="object">ASyncQuery</span>. </td>
+					</tr>
+					<tr>
+						<td>&lt;<span class="object">object</span>&gt; ASyncQueryItem</td>
+						<td>Item to add to the query. </td>
+					</tr>
+				</tbody>
+				<!-- on -->
+				<tbody>
+					<tr>
+						<td colspan="2" class="OverloadHeader"><a name="ASyncQuery_on"></a><b><i>ASyncQuery</i>.on</b>(&lt;<span class="string">string</span>&gt; EvName, &lt;<span class="object">object</span>&gt; ASyncQueryItem_Query_Paramter1, ..., &lt;<span class="object">object</span>&gt; ASyncQueryItem_Query_ParamterN) </td>
+					</tr>
+					<tr>
+						<td colspan="2">Adds a new Event Handler to the ASyncQuery. </td>
+					</tr>
+					<tr>
+						<td colspan="2">Returns <span class="object">ASyncQuery</span>. </td>
+					</tr>
+					<tr>
+						<td><span class="string">string</span>&gt; EvName</td>
+						<td>Name of Event to register Event Handler for. </td>
+					</tr>
+					<tr>
+						<td colspan = "2">Further parameters see <i>ASyncQuery</i>.query or <i>ASyncQuery</i>.add</td>
+					</tr>
+				</tbody>
+				<!-- off -->
+				<!-- on -->
+				<tbody>
+					<tr>
+						<td colspan="2" class="OverloadHeader"><a name="ASyncQuery_off"></a><b><i>ASyncQuery</i>.off</b>(&lt;<span class="string">string</span>&gt; EvName, [&lt;<span class="string">string</span>&gt; HandlerName]) </td>
+					</tr>
+					<tr>
+						<td colspan="2">Removes one or several Event Handler from the ASyncQuery. </td>
+					</tr>
+					<tr>
+						<td colspan="2">Returns <span class="object">ASyncQuery</span>. </td>
+					</tr>
+					<tr>
+						<td><span class="string">string</span>&gt; EvName</td>
+						<td>Name of Event to remove Event Handler(s) from. </td>
+					</tr>
+					<tr>
+						<td><span class="string">string</span>&gt; HandlerName</td>
+						<td>Optional. If specefied only removes Hndlers with the given Name. </td>
+					</tr>
+				</tbody>
+				<!-- raise, fire -->
+				<tbody>
+					<tr>
+						<td colspan="2" class="OverloadHeader"><a name="ASyncQuery_raise"></a><b><i>ASyncQuery</i>.raise</b>(&lt;<span class="string">string</span>&gt; EvName, [&lt;<span class="boolean">boolean</span>&gt; childEvents = True], [&lt;<span class="array">array</span>&gt; EventArguments = []]) </td>
+					</tr>
+					<tr>
+						<td colspan="2">or</td>
+					</tr>
+					<tr>
+						<td colspan="2" class="OverloadHeader"><a name="ASyncQuery_fire"></a><b><i>ASyncQuery</i>.fire</b>(&lt;<span class="string">string</span>&gt; EvName, [&lt;<span class="boolean">boolean</span>&gt; childEvents = True], [&lt;<span class="array">array</span>&gt; EventArguments = []]) </td>
+					</tr>
+					<tr>
+						<td colspan="2">Fires all Event Handlers associated with the specefied Event. </td>
+					</tr>
+					<tr>
+						<td colspan="2">Returns <span class="object">ASyncQuery</span>. </td>
+					</tr>
+					<tr>
+						<td>&lt;<span class="string">string</span>&gt; EvName</td>
+						<td>Name of the Event to raise. </td>
+					</tr>
+					<tr>
+						<td>&lt;<span class="boolean">boolean</span>&gt; childEvents</td>
+						<td>Optional. If False all child Events will not be raised (Child Events are Events called <i>ParentEventName</i>.<i>SomeChildName</i>)</td>
+					</tr>
+					<tr>
+						<td>&lt;<span class="array">array</span>&gt; EventArguments</td>
+						<td>Optional. Arguments to be passed to all Events handlers. </td>
+					</tr>
+				</tbody>
+				<!-- findItemWithName -->
+				<tbody>
+					<tr>
+						<td colspan="2" class="OverloadHeader"><a name="ASyncQuery_findItemWithName"></a><b><i>ASyncQuery</i>.findItemWithName</b>(&lt;<span class="string">string</span> Name) </td>
+					</tr>
+					<tr>
+						<td colspan="2">Gets the first ASyncQuery.QueryItem which is not an eventhandler with the specefied name. </td>
+					</tr>
+					<tr>
+						<td colspan="2">Returns <span class="object">ASyncQuery.QueryItem</span> or <i>null</i>. </td>
+					</tr>
+					<tr>
+						<td>&lt;<span class="string">string</span>&gt; Name</td>
+						<td>Name to look for. </td>
+					</tr>
+				</tbody>
+				<!-- findEventHandlerWithName -->
+				<tbody>
+					<tr>
+						<td colspan="2" class="OverloadHeader"><a name="ASyncQuery_findEventHandlerWithName"></a><b><i>ASyncQuery</i>.findEventHandlerWithName</b>(&lt;<span class="string">string</span> Name) </td>
+					</tr>
+					<tr>
+						<td colspan="2">Gets the first ASyncQuery.QueryItem which is an eventhandler with the specefied name. </td>
+					</tr>
+					<tr>
+						<td colspan="2">Returns <span class="object">ASyncQuery.QueryItem</span> or <i>null</i>. </td>
+					</tr>
+					<tr>
+						<td>&lt;<span class="string">string</span>&gt; Name</td>
+						<td>Name to look for. </td>
+					</tr>
+				</tbody>
+				<!-- reset -->
+				<tbody>
+					<tr>
+						<td colspan="2" class="OverloadHeader"><a name="ASyncQuery_reset"></a><b><i>ASyncQuery</i>.reset</b>() </td>
+					</tr>
+					<tr>
+						<td colspan="2">Resets dependencies of the current ASyncQuery. </td>
+					</tr>
+					<tr>
+						<td colspan="2">Returns <span class="object">ASyncQuery</span>. </td>
+					</tr>
+				</tbody>
+				<!-- clear -->
+				<tbody>
+					<tr>
+						<td colspan="2" class="OverloadHeader"><a name="ASyncQuery_clear"></a><b><i>ASyncQuery</i>.clear</b>() </td>
+					</tr>
+					<tr>
+						<td colspan="2">Deletes all remaining items of the ASyncQuery. </td>
+					</tr>
+					<tr>
+						<td colspan="2">Returns <span class="object">ASyncQuery</span>. </td>
+					</tr>
+				</tbody>
+				<!-- clearItems -->
+				<tbody>
+					<tr>
+						<td colspan="2" class="OverloadHeader"><a name="ASyncQuery_clearItems"></a><b><i>ASyncQuery</i>.clearItems</b>() </td>
+					</tr>
+					<tr>
+						<td colspan="2">Deletes all remaining items of the ASyncQuery which are not eventhandlers. </td>
+					</tr>
+					<tr>
+						<td colspan="2">Returns <span class="object">ASyncQuery</span>. </td>
+					</tr>
+				</tbody>
+				<!-- clearEventHandlers -->
+				<tbody>
+					<tr>
+						<td colspan="2" class="OverloadHeader"><a name="ASyncQuery_clearEventHandlers"></a><b><i>ASyncQuery</i>.clearEventHandlers</b>() </td>
+					</tr>
+					<tr>
+						<td colspan="2">Deletes all remaining items of the ASyncQuery which are eventhandlers. </td>
+					</tr>
+					<tr>
+						<td colspan="2">Returns <span class="object">ASyncQuery</span>. </td>
+					</tr>
+				</tbody>
+				<!-- clearEventHandlersFor -->
+				<tbody>
+					<tr>
+						<td colspan="2" class="OverloadHeader"><a name="ASyncQuery_clearEventHandlersFor"></a><b><i>ASyncQuery</i>.clearEventHandlersFor</b>(&lt;<span class="string">string</span>&gt; EventName) </td>
+					</tr>
+					<tr>
+						<td colspan="2">Deletes all remaining items of the ASyncQuery which are eventhandlers for the specefied Event. </td>
+					</tr>
+					<tr>
+						<td colspan="2">Returns <span class="object">ASyncQuery</span>. </td>
+					</tr>
+					<tr>
+						<td>&lt;<span class="string">string</span>&gt; EventName</td>
+						<td>EventName to look for. </td>
+					</tr>
+				</tbody>
+				<!-- chain -->
+				<tbody>
+					<tr>
+						<td colspan="2" class="OverloadHeader"><a name="ASyncQuery_chain"></a><b><i>ASyncQuery</i>.chain</b>(&lt;<span class="function">function</span>&gt; Func1, [...] ) </td>
+					</tr>
+					<tr>
+						<td colspan="2">A function which keeps chainability. Runs all of the arguments passed to them,if they are functions,
+						whereas this refers to the ASyncQuery object. </td>
+					</tr>
+					<tr>
+						<td colspan="2">Returns <span class="object">ASyncQuery</span>. </td>
+					</tr>
+					<tr>
+						<td> &lt;<span class="function">function</span>&gt; Func1, [...] </td>
+						<td> Functions to run. </td>
+					</tr>
+				</tbody>
+				<!-- Iterate -->
+				<tbody>
+					<tr>
+						<td colspan="2" class="OverloadHeader"><a name="ASyncQuery_iterate"></a><i>ASyncQuery</i>.iterate() </td>
+					</tr>
+					<tr>
+						<td colspan="2"><b>Internally used function</b>, which performs an iteration over all items. Not meant to be used manually. </td>
+					</tr>
+					<tr>
+						<td colspan="2">Returns <span class="object">ASyncQuery</span>. </td>
+					</tr>
+				</tbody>
+				<!-- nextIteration -->
+				<tbody>
+					<tr>
+						<td colspan="2" class="OverloadHeader"><a name="ASyncQuery_nextIteration"></a><i>ASyncQuery</i>.nextIteration() </td>
+					</tr>
+					<tr>
+						<td colspan="2"><b>Internally used function</b>, which calls the next iteration if neccessary. Not meant to be used manually. </td>
+					</tr>
+					<tr>
+						<td colspan="2">Returns <i>ASyncQuery</i>. </td>
+					</tr>
+				</tbody>
+			</table>
+			<h4>ASyncQuery Options</h4>
+			<a name="API_ASyncQueryObject_Opt"></a>
+			<table summary="Possible ASyncQuery Options." class="NoBorder">
+				<colgroup>
+					<col style="width:10%; ">
+					<col style="width:10%; ">
+					<col style="width:40%; ">
+					<col style="width:40%; ">
+				</colgroup>
+				<tr>
+					<td><b>Type</b></td>
+					<td><b>Name</b></td>
+					<td><b>Default</b></td>
+					<td><b>Effect</b></td>
+				</tr>
+				<tr>
+					<td>&lt;<span class="string">string</span>&gt;</td>
+					<td>name</td>
+					<td><i>&quot;&quot;</i></td>
+					<td>Name of the Query. May contain any supported character. </td>
+				</tr>
+				<tr>
+					<td>&lt;<span class="number">number</span>&gt;</td>
+					<td>defaultPriority</td>
+					<td>0</td>
+					<td>Default <i>priority</i> for Query Items. </td>
+				</tr>
+				<tr>
+					<td>&lt;<span class="number">number</span>&gt;</td>
+					<td>defaultPersistence</td>
+					<td>0</td>
+					<td>Default <i>persistence</i> for Query Items. </td>
+				</tr>
+				<tr>
+					<td>&lt;<span class="number">number</span>&gt;</td>
+					<td>defaultTimeout</td>
+					<td>0</td>
+					<td>Default <i>timeout</i> for Query Items. </td>
+				</tr>
+				<tr>
+					<td>&lt;<span class="boolean">boolean</span>&gt;</td>
+					<td>autoStart</td>
+					<td>true</td>
+					<td>Determines if the query will be started automatically if a new QueryItem is attached. </td>
+				</tr>
+				<tr>
+					<td>&lt;<span class="function">function</span>&gt;</td>
+					<td>onError</td>
+					<td>function(){}</td>
+					<td>A function to call if an unhandled error occurs. A parameter containing the Error will be passed to the function. </td>
+				</tr>
+				<tr>
+					<td>&lt;<span class="function">function</span>&gt;</td>
+					<td>onIdle</td>
+					<td>function(){}</td>
+					<td>A function to call every time when the ASyncQuery becomes idle, meaning the last Item is parsed. </td>
+				</tr>
+				<tr>
+					<td>&lt;<span class="object">object</span>&gt;</td>
+					<td>defaultScope</td>
+					<td>window</td>
+					<td>Default <i>Scope</i> for Query Items. Can only be specefied in option map.</td>
+				</tr>
+			</table>
+		</div>
+		<h3>ASyncQuery.QueryItem Object functions</h3>
+		<a name="API_ASyncQueryItem_Func"></a>
+		<div>
+			<b>ASyncQuery.QueryItem</b>()
+			ASyncQuery.QueryItem is a type which contains a single functions to be executed. Public members:
+		</div>
+		<ul>
+			<li>
+				<a href="#ASyncQueryItem_Overload1" class="ref"> ASyncQuery.QueryItem(setting1, ..., ASyncQueryOptions) </a>
+			</li>
+			<li>
+				<a href="#ASyncQueryItem_canPerformWith" class="ref"> <i>ASyncQuery.QueryItem</i>.canPerformWith(Query) </a>
+			</li>
+			<li>
+				<a href="#ASyncQueryItem_chain" class="ref"> <i>ASyncQuery.QueryItem</i>.chain(Func1, [...]) </a>
+			</li>
+			<li>
+				<a href="#ASyncQueryItem_data" class="ref"> <i>ASyncQuery.QueryItem</i>.data(Name, [Value]) </a>
+			</li>
+			<li>
+				<a href="#ASyncQueryItem_data_1" class="ref"> <i>ASyncQuery.QueryItem</i>.data(DataMap) </a>
+			</li>
+			<li>
+				<a href="#ASyncQueryItem_dataApply" class="ref"> <i>ASyncQuery.QueryItem</i>.dataApply(Name, [Value]) </a>
+			</li>
+			<li>
+				<a href="#ASyncQueryItem_dataApply_1" class="ref"> <i>ASyncQuery.QueryItem</i>.dataApply(DataMap) </a>
+			</li>
+			<li>
+				<a href="#ASyncQueryItem_init" class="ref"> <i>ASyncQuery.QueryItem</i>.init(Query) </a>
+			</li>
+			<li>
+				<a href="#ASyncQueryItem_isDead" class="ref"> <i>ASyncQuery.QueryItem</i>.isDead() </a>
+			</li>
+			<li>
+				<a href="#ASyncQueryItem_isEventHandler" class="ref"> <i>ASyncQuery.QueryItem</i>.isEventHandler() </a>
+			</li>
+			<li>
+				<a href="#ASyncQueryItem_kill" class="ref"> <i>ASyncQuery.QueryItem</i>.kill() </a>
+			</li>
+			<li>
+				<a href="#ASyncQueryItem_option" class="ref"> <i>ASyncQuery.QueryItem</i>.option(Name, [Value]) </a>
+			</li>
+			<li>
+				<a href="#ASyncQueryItem_option_1" class="ref"> <i>ASyncQuery.QueryItem</i>.option(optionMap) </a>
+			</li>
+			<li>
+				<a href="#ASyncQueryItem_perform" class="ref"> <i>ASyncQuery.QueryItem</i>.perform([Query]) </a>
+			</li>
+			<li>
+				<a href="#ASyncQueryItem_performWith" class="ref"> <i>ASyncQuery.QueryItem</i>.performWith(Args, [Query]) </a>
+			</li>
+			<li>
+				<a href="#ASyncQueryItem_run" class="ref"> <i>ASyncQuery.QueryItem</i>.run(useErrorHandler) </a>
+			</li>
+			<li>
+				<a href="#ASyncQueryItem_runWith" class="ref"> <i>ASyncQuery.QueryItem</i>.runWith(Args, useErrorHandler) </a>
+			</li>
+		</ul>
+		<table summary="ASyncQuery.QueryItem()" class="NoBorder">
+			<colgroup>
+				<col style="width:50%; ">
+				<col style="width:50%; ">
+			</colgroup>
+			<!-- Constructor -->
+			<tbody>
+				<tr>
+					<td colspan="2" class="OverloadHeader"><a name="ASyncQueryItem_Overload1"></a><b>ASyncQuery.QueryItem</b>(&lt;<span class="object">object</span>&gt; setting1, ..., &lt;<span class="object">object</span>&gt; ASyncQueryItemOptions) </td>
+				</tr>
+				<tr>
+					<td colspan="2">Creates a new ASyncQuery.QueryItem with the specefied options. </td>
+				</tr>
+				<tr>
+					<td colspan="2">Returns <span class="object">ASyncQuery.QueryItem</span>. </td>
+				</tr>
+				<tr>
+					<td>&lt;<span class="object">object</span>&gt; setting1, ..., settingN</td>
+					<td>Settings values of new object to create. </td>
+				</tr>
+				<tr>
+					<td>&lt;<span class="object">object</span>&gt; ASyncQueryOptions</td>
+					<td>A map containing different ASyncQueryItemOptions. </td>
+				</tr>
+			</tbody>
+			<!-- init -->
+			<tbody>
+				<tr>
+					<td colspan="2" class="OverloadHeader"><a name="ASyncQueryItem_init"></a><i>ASyncQuery.QueryItem</i>.init(&lt;<span class="object">ASyncQuery</span>&gt; Query) </td>
+				</tr>
+				<tr>
+					<td colspan="2"><b>Internally used function, </b>which transfers default Settings from a Query to an Item.</td>
+				</tr>
+				<tr>
+					<td colspan="2">Returns <span class="object">ASyncQuery</span>. </td>
+				</tr>
+				<tr>
+					<td>&lt;<span class="object">ASyncQuery</span>&gt; Query</td>
+					<td>ASyncQuery to use. </td>
+				</tr>
+			</tbody>
+			<!-- data -->
+			<tbody>
+				<tr>
+					<td colspan="2" class="OverloadHeader"><a name="ASyncQueryItem_data"></a><i>ASyncQuery.QueryItem</i>.data(&lt;<span class="string">string</span>&gt; Name, [&lt;<span class="object">object</span>&gt; Value]) </td>
+				</tr>
+				<tr>
+					<td colspan="2">Gets or sets an internal data variable of the ASyncQuery.QueryItem. </td>
+				</tr>
+				<tr>
+					<td colspan="2">Returns the value of the data if it is not set by the function, otherwise <span class="object">ASyncQuery.QueryItem</span>. </td>
+				</tr>
+				<tr>
+					<td>&lt;<span class="string">string</span>&gt; Name</td>
+					<td>Name of the data to get or set. </td>
+				</tr>
+				<tr>
+					<td>&lt;<span class="object">object</span>&gt; Value</td>
+					<td>Optional. If specefied, the data will be set to this Value. </td>
+				</tr>
+			</tbody>
+			<!-- data #2 -->
+			<tbody>
+				<tr>
+					<td colspan="2" class="OverloadHeader"><a name="ASyncQueryItem_data_1"></a><i>ASyncQuery.QueryItem</i>.data(&lt;<span class="object">object</span>&gt; DataMap) </td>
+				</tr>
+				<tr>
+					<td colspan="2">Sets several data values of the ASyncQuery.QueryItem. </td>
+				</tr>
+				<tr>
+					<td colspan="2">Returns <span class="object">ASyncQuery.QueryItem</span>. </td>
+				</tr>
+				<tr>
+					<td>&lt;<span class="object">object</span>&gt; DataMap</td>
+					<td>Map of data values to set. </td>
+				</tr>
+			</tbody>
+			<!-- dataApply -->
+			<tbody>
+				<tr>
+					<td colspan="2" class="OverloadHeader"><a name="ASyncQueryItem_dataApply"></a><i>ASyncQuery.QueryItem</i>.dataApply(&lt;<span class="string">string</span>&gt; Name, [&lt;<span class="function">function</span>&gt; Value]) </td>
+				</tr>
+				<tr>
+					<td colspan="2">Gets or sets an internal data variable of the ASyncQuery.QueryItem. </td>
+				</tr>
+				<tr>
+					<td colspan="2">Returns the value of the data if it is not set by the function, otherwise <span class="object">ASyncQuery.QueryItem</span>. </td>
+				</tr>
+				<tr>
+					<td>&lt;<span class="string">string</span>&gt; Name</td>
+					<td>Name of the data to get or set. </td>
+				</tr>
+				<tr>
+					<td>&lt;<span class="function">function</span>&gt; Value</td>
+					<td>Optional. If specefied the data will be set to this evaluated function. The first
+					parameter to the function will be the data to set. <i>this</i> will reference to the current ASyncQuery.QueryItem object. </td>
+				</tr>
+			</tbody>
+			<!-- dataApply #2 -->
+			<tbody>
+				<tr>
+					<td colspan="2" class="OverloadHeader"><a name="ASyncQueryItem_dataApply_1"></a><i>ASyncQuery.QueryItem</i>.dataApply(&lt;<span class="object">object</span>&gt; DataMap) </td>
+				</tr>
+				<tr>
+					<td colspan="2">Sets several data values of the ASyncQuery.QueryItem. </td>
+				</tr>
+				<tr>
+					<td colspan="2">Returns <span class="object">ASyncQuery.QueryItem</span>. </td>
+				</tr>
+				<tr>
+					<td>&lt;<span class="object">object</span>&gt; DataMap</td>
+					<td>Map of data values to set using the method described above. </td>
+				</tr>
+			</tbody>
+			<!-- chain -->
+			<tbody>
+				<tr>
+					<td colspan="2" class="OverloadHeader"><a name="ASyncQueryItem_chain"></a><b><i>ASyncQuery.QueryItem</i>.chain</b>(&lt;<span class="function">function</span>&gt; Func1, [...] ) </td>
+				</tr>
+				<tr>
+					<td colspan="2">A function which keeps chainability. Runs all of the arguments passed to them,if they are functions,
+					whereas this refers to the ASyncQuery.QueryItem object. </td>
+				</tr>
+				<tr>
+					<td colspan="2">Returns <span class="object">ASyncQuery.QueryItem</span>. </td>
+				</tr>
+				<tr>
+					<td> &lt;<span class="function">function</span>&gt; Func1, [...] </td>
+					<td> Functions to run. </td>
+				</tr>
+			</tbody>
+			<!-- option -->
+			<tbody>
+				<tr>
+					<td colspan="2" class="OverloadHeader"><a name="ASyncQueryItem_option"></a><b><i>ASyncQuery.QueryItem</i>.option</b>(&lt;<span class="string">string</span>&gt; Name, [&lt;<span class="object">object</span>&gt; Value]) </td>
+				</tr>
+				<tr>
+					<td colspan="2">Gets or sets an option of the ASyncQuery.QueryItem. </td>
+				</tr>
+				<tr>
+					<td colspan="2">Returns the value of the option if it is not set by the function, otherwise <span class="object">ASyncQuery.QueryItem</span>. </td>
+				</tr>
+				<tr>
+					<td>&lt;<span class="string">string</span>&gt; Name</td>
+					<td>Name of the option to get or set. </td>
+				</tr>
+				<tr>
+					<td>&lt;<span class="object">object</span>&gt; Value</td>
+					<td>Optional. If specefied, the option will be set to this Value. </td>
+				</tr>
+			</tbody>
+			<!-- option #2-->
+			<tbody>
+				<tr>
+					<td colspan="2" class="OverloadHeader"><a name="ASyncQueryItem_option_1"></a><b><i>ASyncQuery.QueryItem</i>.option</b>(&lt;<span class="object">object</span>&gt; OptionMap) </td>
+				</tr>
+				<tr>
+					<td colspan="2">Sets several options of the ASyncQuery.QueryItem. </td>
+				</tr>
+				<tr>
+					<td colspan="2">Returns <span class="object">ASyncQuery.QueryItem</span>. </td>
+				</tr>
+				<tr>
+					<td>&lt;<span class="object">object</span>&gt; OptionMap</td>
+					<td>Map of options to set. </td>
+				</tr>
+			</tbody>
+			<!-- Perform -->
+			<tbody>
+				<tr>
+					<td colspan="2" class="OverloadHeader"><a name="ASyncQueryItem_perform"></a><b><i>ASyncQuery.QueryItem</i>.perform</b>([&lt;<span class="object">ASyncQuery</span>&gt; Query]) </td>
+				</tr>
+				<tr>
+					<td colspan="2">Performs the ASyncQuery.QueryItem if it can be run in the Query. </td>
+				</tr>
+				<tr>
+					<td colspan="2">Returns the return value of the function, otherwise <i>null</i>. </td>
+				</tr>
+				<tr>
+					<td>&lt;<span class="object">ASyncQuery</span>&gt; Query</td>
+					<td>Optional Value. ASyncQuery to perform the Item in. </td>
+				</tr>
+			</tbody>
+			<!-- performWith-->
+			<tbody>
+				<tr>
+					<td colspan="2" class="OverloadHeader"><a name="ASyncQueryItem_performWith"></a><b><i>ASyncQuery.QueryItem</i>.performWith</b>(&lt;<span class="array">array</span>&gt; Args, [&lt;<span class="object">ASyncQuery</span>&gt; Query]) </td>
+				</tr>
+				<tr>
+					<td colspan="2">Performs the ASyncQuery.QueryItem, passing special parameters to it, if it can be run in the Query. </td>
+				</tr>
+				<tr>
+					<td colspan="2">Returns the return value of the function, otherwise <i>null</i>. </td>
+				</tr>
+				<tr>
+					<td>&lt;<span class="array">array</span>&gt; Args</td>
+					<td>Arguments to pass to the item when running it. </td>
+				</tr>
+				<tr>
+					<td>&lt;<span class="object">ASyncQuery</span>&gt; Query</td>
+					<td>Optional Value. ASyncQuery to perform the Item in. </td>
+				</tr>
+			</tbody>
+			<!-- run -->
+			<tbody>
+				<tr>
+					<td colspan="2" class="OverloadHeader"><a name="ASyncQueryItem_run"></a><b><i>ASyncQuery.QueryItem</i>.run</b>(&lt;<span class="boolean">boolean</span>&gt; useErrorHandler) </td>
+				</tr>
+				<tr>
+					<td colspan="2">Runs the ASyncQuery.QueryItem, ignoring all dependencies. </td>
+				</tr>
+				<tr>
+					<td colspan="2">Returns the return value of the function, otherwise <i>null</i>. </td>
+				</tr>
+				<tr>
+					<td>&lt;<span class="boolean">boolean</span>&gt; useErrorHandler</td>
+					<td>Determines if an Error handler is to be used if the function throws an error. </td>
+				</tr>
+			</tbody>
+			<!-- runWith-->
+			<tbody>
+				<tr>
+					<td colspan="2" class="OverloadHeader"><a name="ASyncQueryItem_runWith"></a><b><i>ASyncQuery.QueryItem</i>.runWith</b>(&lt;<span class="array">array</span>&gt; Args, &lt;<span class="boolean">boolean</span>&gt; useErrorHandler) </td>
+				</tr>
+				<tr>
+					<td colspan="2">Runs the ASyncQuery.QueryItem, passing special parameters to it, ignoring all dependencies. </td>
+				</tr>
+				<tr>
+					<td colspan="2">Returns the return value of the function, otherwise <i>null</i>. </td>
+				</tr>
+				<tr>
+					<td>&lt;<span class="array">array</span>&gt; Args</td>
+					<td>Arguments to pass to the item when running it. </td>
+				</tr>
+				<tr>
+					<td>&lt;<span class="boolean">boolean</span>&gt; useErrorHandler</td>
+					<td>Determines if an Error handler is to be used if the function throws an error. </td>
+				</tr>
+			</tbody>
+			<!-- kill-->
+			<tbody>
+				<tr>
+					<td colspan="2" class="OverloadHeader"><a name="ASyncQueryItem_kill"></a><b><i>ASyncQuery.QueryItem</i>.kill</b>() </td>
+				</tr>
+				<tr>
+					<td colspan="2">Prevents the ASyncQuery.QueryItem from running again. </td>
+				</tr>
+				<tr>
+					<td colspan="2">Returns <span class="object">ASyncQuery.QueryItem</span>. </td>
+				</tr>
+			</tbody>
+			<!-- canPerformWith-->
+			<tbody>
+				<tr>
+					<td colspan="2" class="OverloadHeader"><a name="ASyncQueryItem_canPerformWith"></a><b><i>ASyncQuery.QueryItem</i>.canPerformWith</b>(&lt;<span class="object">ASyncQuery</span>&gt; Query) </td>
+				</tr>
+				<tr>
+					<td colspan="2">States if the ASyncQuery.QueryItem can be run in a specefied ASyncQuery.
+					<br>
+					Note: This function loads additional dependencies if they are not yet available. </td>
+				</tr>
+				<tr>
+					<td colspan="2">Returns <span class="boolean">boolean</span>. </td>
+				</tr>
+				<tr>
+					<td>&lt;<span class="object">ASyncQuery</span>&gt; Query</td>
+					<td>ASyncQuery to examine. </td>
+				</tr>
+			</tbody>
+			<!-- isEventHandler-->
+			<tbody>
+				<tr>
+					<td colspan="2" class="OverloadHeader"><a name="ASyncQueryItem_isEventHandler"></a><b><i>ASyncQuery.QueryItem</i>.isEventHandler</b>() </td>
+				</tr>
+				<tr>
+					<td colspan="2">States if the ASyncQuery.QueryItem habndles an Event. </td>
+				</tr>
+				<tr>
+					<td colspan="2">Returns <span class="boolean">boolean</span>. </td>
+				</tr>
+				<tr>
+					<td>&lt;<span class="object">ASyncQuery</span>&gt; Query</td>
+					<td>ASyncQuery to examine. </td>
+				</tr>
+			</tbody>
+			<!-- isDead-->
+			<tbody>
+				<tr>
+					<td colspan="2" class="OverloadHeader"><a name="ASyncQueryItem_isDead"></a><b><i>ASyncQuery.QueryItem</i>.isDead</b>() </td>
+				</tr>
+				<tr>
+					<td colspan="2">States if the ASyncQuery.QueryItem will be run again or not. </td>
+				</tr>
+				<tr>
+					<td colspan="2">Returns <span class="boolean">boolean</span>. </td>
+				</tr>
+			</tbody>
+		</table>
+		<h4>ASyncQueryItem Options</h4>
+		<a name="API_ASyncQueryItem_Opt"></a>
+		<table summary="Possible ASyncQueryItem Options." class="NoBorder">
+			<colgroup>
+				<col style="width:10%; ">
+				<col style="width:10%; ">
+				<col style="width:40%; ">
+				<col style="width:40%; ">
+			</colgroup>
+			<tr>
+				<td><b>Type</b></td>
+				<td><b>Name</b></td>
+				<td><b>Default</b></td>
+				<td><b>Effect</b></td>
+			</tr>
+			<tr>
+				<td>&lt;<span class="string">string</span>&gt;</td>
+				<td>name</td>
+				<td> randomly generated UUID-like string.
+				<br>
+				Contains 8 10-character sequences, which are connected by "-"s. Each
+				sequence can contain numbers, upper and lower case letters from a to z.
+				<br>
+				<a href="javascript:Example_Sequence(); ">Example</a>:
+				<div id="Example_Seq">
+					mP78m86otb-0FGEKzSAoF-hL2M5IaRAa-u8ksyG5VKX-
+					IuIcXVbJEe-ZNSXw69xMk-Z2KMuI4nJX-JTv4VOnRGL
+				</div></td>
+				<td>Name of the Item. May contain any supported character. </td>
+			</tr>
+			<tr>
+				<td>&lt;<span class="string">string</span>&gt;</td>
+				<td>handlesEvent</td>
+				<td><i>&quot;&quot;</i></td>
+				<td>If not <i>&quot;&quot;</i>, the Item is registered as an event handler for the specefied Event.</td>
+			</tr>
+			<tr>
+				<td>&lt;<span class="number">number</span>&gt;</td>
+				<td>persistence</td>
+				<td>as specefied in ASyncQuery <i>defaultPersistence</i> option, otherwise <i>0</i></td>
+				<td>Determines how many times the Item will be repeated. 0 means no repeat at all. <i>Ignored for Event Handlers unless changed later with .option()</i></td>
+			</tr>
+			<tr>
+				<td>&lt;<span class="number">number</span>&gt;</td>
+				<td>priority</td>
+				<td>as specefied in ASyncQuery <i>defaultPriority</i> option, otherwise <i>0</i></td>
+				<td>Priority of the Item. The higher the priority, the earlier it will be ran in it's Query. </td>
+			</tr>
+			<tr>
+				<td>&lt;<span class="number">number</span>&gt;</td>
+				<td>timeout</td>
+				<td>as specefied in ASyncQuery <i>defaultTimeout</i> option, otherwise <i>0</i></td>
+				<td>Minimum time to wait until the item will be started. Only important for items which are in a query. </td>
+			</tr>
+			<tr>
+				<td>&lt;<span class="array">array</span>&gt;</td>
+				<td>arguments</td>
+				<td>[]</td>
+				<td>An array of parameters to pass to the Item when it is called. </td>
+			</tr>
+			<tr>
+				<td>&lt;<span class="array">array</span>&gt;</td>
+				<td>QueryItems</td>
+				<td>[]</td>
+				<td>An array of names of other Query items which have to have been started before his one will start. </td>
+			</tr>
+			<tr>
+				<td>&lt;<span class="function">function</span>&gt;</td>
+				<td>function</td>
+				<td>function(){}</td>
+				<td>Function of the item. It will be ran when the item is called. </td>
+			</tr>
+			<tr>
+				<td>&lt;<span class="function">function</span>&gt;</td>
+				<td>onError</td>
+				<td>function(e){throw(e);}</td>
+				<td>A function to call if an unhandled error occurs. A parameter containing the Error will be
+				passed to the function. It overrides the onError Option of the Items Query. </td>
+			</tr>
+			<tr>
+				<td>&lt;<span class="function">function</span>&gt;</td>
+				<td>onDeath</td>
+				<td>function(){}</td>
+				<td>A function to call after the item is no longer called. </td>
+			</tr>
+			<tr>
+				<td>&lt;<span class="object">object</span>&gt;</td>
+				<td>Scope</td>
+				<td>as specefied in ASyncQuery <i>defaultScope</i> option, otherwise <i>window</i></td>
+				<td>Value of <i>this</i> inside the function. Can only be specefied in the ASyncQueryItemOptions parameter. </td>
+			</tr>
+		</table>
+	</body>
+</html>

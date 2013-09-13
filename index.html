@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>ASyncQuery.js - HOME</title>
+		<!--
+		ASyncQuery.js DEMO /DOC File
+
+		(c) Tom Wiesing <tkw01536@googlemail.com> 2011
+
+		ASyncQuery.js is free software.
+		It comes without any warranty, to the extent permitted by applicable law.
+		You may redistribute and/or modify it, provided you comply to the following conditions:
+		(0) Any changes made to this file and/or its dependencies must be marked in such a way
+		that it is obvious that they are not by the original author.
+		(1) The original author of the original file must be named.
+		(2) Any redistribution and/or modification may not be commercial, meaning no
+		product using this file and/or its references may be included in a commercial
+		product or project.
+
+		(c) Tom Wiesing <tkw01536@googlemail.com> 2011
+		Last changes: 24th December 2011
+
+		-->
+		<script src="js/ASyncQuery.js" type="text/javascript" language="JavaScript"></script>
+		<!-- Stylesheet for demo -->
+		<link rel="stylesheet" href="./style.css"> 
+	</head>
+	<body>
+		<h1>ASyncQuery.js</h1>
+		<div>
+			<table summary="Navigation" class="navtable">
+				<colgroup>
+					<col style="width: 2%; ">
+					<col style="width: 16%; ">
+					<col style="width: 16%; ">
+					<col style="width: 16%; ">
+					<col style="width: 16%; ">
+					<col style="width: 16%; ">
+					<col style="width: 16%; ">
+					<col style="width: 2%; ">
+				</colgroup>
+				<tr>
+					<td>&nbsp;</td>
+					<td><b>Home</b></td>
+					<td><a href="./concepts.html">Concepts</a></td>
+					<td><a href="./license.html">License</a></td>
+					<td><a href="./api.html">API</a></td>
+					<td><a href="./demo.html">Demo</a></td>
+					<td><a href="./tests.html">Tests</a></td>
+					<td>&nbsp;</td>
+				</tr>
+			</table>
+		</div>
+		<h2>Home</h2>
+		<h3>What is ASyncQuery.js?</h3>
+		<div>
+			<i>ASyncQuery.js</i> is a JavaScript Library that allows to make ASynchronous calls of functions.
+			It allows to make several queries, repeating a function over and over or repeating a function a
+			limited number of times. Basically, it allows asynchronous in JavaScript. It has been tested successfully
+			in Chrome (&amp; Chromium), Firefox &amp; Internet Explorer, it should also work in Opera &amp; Safari
+			(I couldn't test it there, but if you did so, please write me an e-mail. )
+		</div>
+		<h3>Recent changes: </h3>
+		<ul>
+			<li>Now using QUnit for testing. Wrote some tests. </li>
+			<li>Beautified Demos. </li>
+			<li>Static functions now protected, added Debug Mode. </li>
+			<li>Protected undefined. </li>
+			<li><div>Implemented Event Raising (#I01, #B01):
+				<ul>
+					<li>Event Handlers will not be killed automatically. (#B04 fixed)</li>
+					<li>Implemented .on(), .off()</li>
+				</ul>
+			</div></li>
+			<li>improved partial Event Implementation</li>
+			<li>discarded malfunctioning .parallel()  [and .serial()] (#I03, possible later fix through #I06)</li>
+			<li>renamed ASyncQuery.trycontinue() ASyncQuery.nextIteration()</li>
+			<li>Items and Query default Settings interaction implemented (#I02)</li>
+			<li>Implemented .start([permanent]) and .stop([permanent]), discarding .start() and .stop() (#I09)</li>
+			<li><div>Several speed optimizations: (#I05)
+				<ul>
+					<li>discarded static function nextIteration()</li>
+					<li>discarded Query.data(&quot;id&quot;)</li>
+					<li>optimized static functions overloadRunNow(), overloadLookUp()</li>
+					<li>optimized ASyncQuery, ASyncQuery.QueryItem functions .option(), .data(), .dataApply()</li>
+					<li>optimized ASyncQuery function: .start()</li>
+				</ul>
+			</div></li>
+		</ul>
+		<h3>known Issues: TOFIX</h3>
+		<ul>
+			<li class="tofix done">Events can't be raised (&rarr;#I01)</li>
+			<li class="tofix discarded">.parallel() mode malfunctioning ( possible solution: &rarr;#I06)</li>
+			<li class="tofix discarded">IE displays pre, .pre strange in documentation (&rarr; #I11)</li>
+			<li class="tofix done">Events can't be killed</li>
+		</ul>
+		<h3>planned Implementations: TODO</h3>
+		<ul>
+			<li class="todo done">Implement Event raising (because of #B01)</li>
+			<li class="todo done">Items and Query default Settings interaction. </li>
+			<li class="todo discarded">Implement .parallel() [and .serial()]</li>
+			<li class="todo discarded">Implement .option() as .data() [Unsafe: .data() and .option() would become dependent]</li>
+			<li class="todo permanent">Increase speed and memory usage. </li>
+			<li class="todo discarded">Use window.postMessage instead of window.setTimeout</li>
+			<li class="todo">Implement conditions for Queries: .until(), .while(), .after()</li>
+			<li class="todo wip">Rewrite Tests</li>
+			<li class="todo done">Implement .start([permanent]) and .stop([permanent])</li>
+			<li class="todo wip">Implement external JavaScript loading </li>
+			<li class="todo">Implement external CSS loading </li>
+			<li class="todo done">Protect static functions</li>
+			<li class="todo discarded">fix IE stylesheet (pre, .pre)</li>
+			<li class="todo">Document the .Debug() function and static functions. </li>
+		</ul>
+	</html>

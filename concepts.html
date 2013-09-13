@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>ASyncQuery.js  - CONCEPTS</title>
+		<!--
+		ASyncQuery.js DEMO /DOC File
+
+		(c) Tom Wiesing <tkw01536@googlemail.com> 2011
+
+		ASyncQuery.js is free software.
+		It comes without any warranty, to the extent permitted by applicable law.
+		You may redistribute and/or modify it, provided you comply to the following conditions:
+		(0) Any changes made to this file and/or its dependencies must be marked in such a way
+		that it is obvious that they are not by the original author.
+		(1) The original author of the original file must be named.
+		(2) Any redistribution and/or modification may not be commercial, meaning no
+		product using this file and/or its references may be included in a commercial
+		product or project.
+
+		(c) Tom Wiesing <tkw01536@googlemail.com> 2011
+		Last changes: 22nd December 2011
+
+		-->
+		<script src="js/ASyncQuery.js" type="text/javascript" language="JavaScript"></script>
+		<!-- Stylesheet for demo -->
+		<link rel="stylesheet" href="./style.css"> 
+		<script type="text/javascript" language="JavaScript">
+			function A_Simple_Demo_1() {
+				var an_Object = new Object();
+				an_Object.message = "I am a property of an object. ";
+				ASyncQuery(function() {alert(this.message);
+				}, 1000, {
+					Scope : an_Object
+				});
+			}
+		</script>
+	</head>
+	<body>
+		<h1>ASyncQuery.js</h1>
+		<div>
+			<table summary="Navigation" class="navtable">
+				<colgroup>
+					<col style="width: 2%; ">
+					<col style="width: 16%; ">
+					<col style="width: 16%; ">
+					<col style="width: 16%; ">
+					<col style="width: 16%; ">
+					<col style="width: 16%; ">
+					<col style="width: 16%; ">
+					<col style="width: 2%; ">
+				</colgroup>
+				<tr>
+					<td>&nbsp;</td>
+					<td><a href="./index.html">Home</a></td>
+					<td><b>Concepts</b></td>
+					<td><a href="./license.html">License</a></td>
+					<td><a href="./api.html">API</a></td>
+					<td><a href="./demo.html">Demo</a></td>
+					<td><a href="./tests.html">Tests</a></td>
+					<td>&nbsp;</td>
+				</tr>
+			</table>
+		</div>
+		<h2>Concepts</h2>
+		<div>
+			In JavaScript when you want to do some asynchronous things, you usually use the window.setTimeout function. However it is rather limited.
+			It only allows you to start text in a string or code inside  a function to run after a defined set of milliseconds. Some browsers offer
+			the posibility to give arguments to a function, others don't. Also, window.setTimeout cannot be used within objects, because the value of <i>this</i> is lost. For this purpose I created <i>ASyncQuery.js</i>. <h3>Window.setTimeout alternative, </h3>
+			<div>
+				<i>ASyncQuery.js</i> was written as a window.setTimeout alternative. 				
+<pre>function A_Simple_Demo_1(){
+	var an_Object = new Object();
+	an_Object.message = "I am a property of an object. ";
+	ASyncQuery(function(){alert(this.message);}, 1000, {Scope: an_Object});
+}</pre>
+				<a href="javascript:A_Simple_Demo_1();">Test example #1</a>. It allows to use <i>this</i> inside a function, as you can se in this example.
+				Also ASyncQuery can give a function a number of arguments, by specefiing the arguments parameter. 
+			</div>
+			<h3>And more ...</h3>
+			<div>
+				There's even more in it already. You can:
+				<ul>
+					<li>let items wait for others to finish,</li>
+					<li>let things happen in case of errors,</li>
+					<li>delete individual items,</li>
+					<li>raise events and let them start functions</li>
+				</ul>
+				Thers's even more planned. Soon you'll be able to:
+				<ul>
+					<li>let queries run under custom conditions only and let them resume automatically once a condition is done. </li>
+					<li>load external JS files and wait for them to load</li>
+				</ul>
+			</div>
+		</div>
+	</body>
+</html>
